@@ -4,7 +4,7 @@ using System.Collections;
 public class MulticastScript : MonoBehaviour 
 {
 
-	// we declareren de 'handtekening' van de Multicast delegate
+	// we declareren de 'handtekening' van de Multicast delegate (zonder parameter dit keer)
 	delegate void GameObjectMover();
 
 	// vervolgens maken we een variabele aan die kan refereren naar verschillende methods
@@ -12,31 +12,18 @@ public class MulticastScript : MonoBehaviour
 	
 	void Start () 
 	{
-
-		// we voegen een functie toe aan de delegate
+		// we voegen beide functies toe aan de delegate
 		MoveGameObject += MoveRight;
-		// we voegen NOG een functie toe aan de delegate
 		MoveGameObject += MoveUp;
-
 	}
 
-	void FixedUpdate() {
+	void Update() {
 
-		// ALTIJD checken of je delegate niet NULL is. Anders krijg je errors
-		if(MoveGameObject != null)
-		{
-			// er is/zijn 1 of meerdere delegate referenties: laten we ze aanroepen
+		// ALTIJD checken of je delegate niet NULL is (!= null). Anders krijg je errors
+		if(MoveGameObject != null){
 			MoveGameObject();
 		}
 	}
-
-
-	void OnMouseDown() {
-		// als voorbeeld halen we 1 van de functies weg als je op dit gameobject klikt
-		MoveGameObject -= MoveRight;
-	}
-
-
 
 	// eerste functie die gebruikt kan worden voor een delegate
 	void MoveRight()
@@ -49,4 +36,10 @@ public class MulticastScript : MonoBehaviour
 	{
 		Debug.Log("Move up");
 	}
+
+	// @ voorbeeld van het afmelden bij een delegate -=
+	void OnMouseDown(){
+		MoveGameObject -= MoveUp;
+	}
+	
 }
